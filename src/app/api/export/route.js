@@ -18,18 +18,19 @@ export async function POST(request) {
     // Parse monthYear (e.g., "2026-03")
     const [year, month] = monthYear.split("-");
     
-    // Calculate start and end dates for the selected month
-    const startDate = new Date(year, parseInt(month) - 1, 1).toISOString();
-    const endDate = new Date(year, parseInt(month), 0, 23, 59, 59, 999).toISOString();
+    // Calculate start and end dates based on user's month/year string (YYYY-MM)
+    const startDate = `${year}-${month.padStart(2, '0')}-01`;
+    const lastDay = new Date(year, parseInt(month), 0).getDate();
+    const endDate = `${year}-${month.padStart(2, '0')}-${lastDay.toString().padStart(2, '0')}`;
 
     const supabase = createServiceRoleClient();
 
     const { data: records, error } = await supabase
       .from("fuel_records")
       .select("*")
-      .gte("created_at", startDate)
-      .lte("created_at", endDate)
-      .order("created_at", { ascending: true });
+      .gte("record_date", startDate)
+      .lte("record_date", endDate)
+      .order("record_date", { ascending: true });
 
     if (error) {
       console.error("Supabase Error:", error);
@@ -42,12 +43,12 @@ export async function POST(request) {
 
     // Format data for Excel
     const formattedData = records.map((record) => {
-      // Format date
-      const date = new Date(record.created_at);
-      const formattedDate = date.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" });
+      // Split YYYY-MM-DD from the string and reformat to DD/MM/YYYY for Excel
+      const [recYear, recMonth, recDay] = record.record_date.split('-');
+      const formattedDate = `${recDay}/${recMonth}/${recYear}`;
 
       return {
-        "วันที่เวลา": formattedDate,
+        "วันที่เติม": formattedDate,
         "สายวิ่ง": record.route,
         "ประเภทน้ำมัน": record.fuel_type,
         "จำนวนที่เติม (ลิตร/บาท)": record.amount,

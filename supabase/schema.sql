@@ -4,6 +4,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Create the fuel_records table
 CREATE TABLE fuel_records (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  record_date DATE NOT NULL DEFAULT CURRENT_DATE,
   route TEXT NOT NULL,
   fuel_type TEXT NOT NULL,
   amount NUMERIC(10, 2) NOT NULL,

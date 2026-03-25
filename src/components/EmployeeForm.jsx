@@ -8,6 +8,7 @@ const ROUTES = ["KA11", "KA12", "KA14", "CT21", "CT22", "CT23", "CT24", "CT25", 
 const FUEL_TYPES = ["แก๊สโซฮอล์ 95", "แก๊สโซฮอล์ E20", "แก๊สโซฮอล์ E85", "แก๊สโซฮอล์ 91", "เบนซิน 95", "แก๊ส NGV", "ดีเซล B7", "ดีเซล"];
 
 export default function EmployeeForm() {
+  const [recordDate, setRecordDate] = useState(() => new Date().toLocaleDateString("en-CA"));
   const [route, setRoute] = useState("");
   const [fuelType, setFuelType] = useState("");
   const [amount, setAmount] = useState("");
@@ -22,11 +23,17 @@ export default function EmployeeForm() {
     try {
       const { error } = await supabase
         .from("fuel_records")
-        .insert([{ route, fuel_type: fuelType, amount: parseFloat(amount) }]);
+        .insert([{ 
+          route, 
+          fuel_type: fuelType, 
+          amount: parseFloat(amount),
+          record_date: recordDate
+        }]);
 
       if (error) throw error;
 
       setSuccessMsg("บันทึกสำเร็จ");
+      setRecordDate(new Date().toLocaleDateString("en-CA"));
       setRoute("");
       setFuelType("");
       setAmount("");
@@ -48,6 +55,17 @@ export default function EmployeeForm() {
           {successMsg}
         </div>
       )}
+
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium text-gray-700">วันที่เติมน้ำมัน <span className="text-red-500">*</span></label>
+        <input 
+          type="date" 
+          required 
+          value={recordDate}
+          onChange={(e) => setRecordDate(e.target.value)}
+          className="border border-gray-300 p-2 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-700">สายวิ่ง <span className="text-red-500">*</span></label>
