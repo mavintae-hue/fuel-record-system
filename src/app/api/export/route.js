@@ -38,7 +38,7 @@ export async function POST(request) {
     }
 
     if (!records || records.length === 0) {
-      return NextResponse.json({ error: "ไม่พบข้อมูลสำหรับเดือนที่เลือก" }, { status: 404 });
+      return NextResponse.json({ error: `ไม่พบข้อมูลสำหรับเดือนที่เลือก (หาวันที่ ${startDate} ถึง ${endDate}) (รับมา: ${monthYear})` }, { status: 404 });
     }
 
     // Format data for Excel
