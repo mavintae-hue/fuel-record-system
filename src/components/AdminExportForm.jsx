@@ -24,10 +24,11 @@ export default function AdminExportForm() {
       });
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
         if (response.status === 401) {
           throw new Error("รหัสผ่านไม่ถูกต้อง");
         }
-        throw new Error("เกิดข้อผิดพลาดในการดาวน์โหลด");
+        throw new Error(errorData.error || "เกิดข้อผิดพลาดในการดาวน์โหลด");
       }
 
       // Convert response to blob
