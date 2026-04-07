@@ -4,7 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/utils/supabase/client";
 import { Save, CheckCircle2 } from "lucide-react";
 
-const ROUTES = ["KA11", "KA12", "KA14", "CT21", "CT22", "CT23", "CT24", "CT25", "CT26", "CT27", "CT28", "CT33", "CT34", "CT35", "CT36", "CT37", "CT38", "CT39", "CT40", "CT41", "SUP"];
+const ROUTES = ["KA11", "KA12", "KA14", "CT21", "CT22", "CT23", "CT24", "CT25", "CT26", "CT27", "CT28", "CT33", "CT34", "CT35", "CT36", "CT37", "CT38", "CT39", "CT40", "CT41", "SUP", "Test"];
 const FUEL_TYPES = ["แก๊สโซฮอล์ 95", "แก๊สโซฮอล์ E20", "แก๊สโซฮอล์ E85", "แก๊สโซฮอล์ 91", "เบนซิน 95", "แก๊ส NGV", "ดีเซล B7", "ดีเซล"];
 
 export default function EmployeeForm() {
