@@ -41,7 +41,7 @@ export default function EmployeeForm() {
       setTimeout(() => setSuccessMsg(""), 3000);
     } catch (error) {
       console.error("Error inserting data:", error);
-      alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+      alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error.message || JSON.stringify(error)));
     } finally {
       setIsLoading(false);
     }
